@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Configuration
 public class AdminUserConfig implements CommandLineRunner {
@@ -33,6 +34,7 @@ public class AdminUserConfig implements CommandLineRunner {
                 user -> { System.out.println("Admin user already exists"); },
                 () -> {
                     var admin = new User();
+                    admin.setId(UUID.randomUUID());
                     admin.setName("Admin");
                     admin.setEmail("admin@email.com");
                     admin.setPassword(passwordEncoder.encode("123"));
