@@ -3,6 +3,7 @@ package com.eduardoinacio.javaspring_socialmedia.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 import java.util.UUID;
@@ -34,4 +35,8 @@ public class User {
 
     )
     private Set<Role> roles;
+
+    public boolean passwordVerification(String password, PasswordEncoder passwordEncoder){
+        return passwordEncoder.matches(password, this.password);
+    }
 }
