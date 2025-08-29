@@ -36,8 +36,8 @@ public class LoginService {
 
         var claims = JwtClaimsSet
                 .builder()
-                .issuer("${spring.application.name}")
-                .subject(user.get().getName())
+                .issuer("Spring Social Media")
+                .subject(user.get().getId().toString())
                 .issuedAt(now)
                 .expiresAt(expiresIn)
                 .build();
