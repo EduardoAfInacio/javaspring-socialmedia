@@ -2,6 +2,7 @@ package com.eduardoinacio.javaspring_socialmedia.controller;
 
 import com.eduardoinacio.javaspring_socialmedia.controller.dto.Auth.LoginRequest;
 import com.eduardoinacio.javaspring_socialmedia.controller.dto.Auth.LoginResponse;
+import com.eduardoinacio.javaspring_socialmedia.controller.dto.Auth.UserRegisterRequest;
 import com.eduardoinacio.javaspring_socialmedia.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -23,5 +24,10 @@ public class AuthController {
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request){
         LoginResponse response = authService.login(request.email(), request.password());
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<Void> register(@RequestBody UserRegisterRequest request){
+        return ResponseEntity.ok().build();
     }
 }
