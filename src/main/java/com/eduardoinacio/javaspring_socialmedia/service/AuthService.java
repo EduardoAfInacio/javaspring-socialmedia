@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
@@ -40,12 +41,17 @@ public class AuthService {
         var now = Instant.now();
         var expiresIn = now.plusSeconds(900);
 
+        var scope = user.get().getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.joining(" "));
+
         var claims = JwtClaimsSet
                 .builder()
                 .issuer("Spring Social Media")
                 .subject(user.get().getId().toString())
                 .issuedAt(now)
                 .expiresAt(expiresIn)
+                .claim("scope", scope)
                 .build();
 
         var tokenEncoded = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
