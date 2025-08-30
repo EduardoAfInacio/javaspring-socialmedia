@@ -1,6 +1,6 @@
 package com.eduardoinacio.javaspring_socialmedia.service;
 
-import com.eduardoinacio.javaspring_socialmedia.controller.dto.Auth.LoginResponse;
+import com.eduardoinacio.javaspring_socialmedia.controller.dto.auth.LoginResponse;
 import com.eduardoinacio.javaspring_socialmedia.entity.Role;
 import com.eduardoinacio.javaspring_socialmedia.entity.User;
 import com.eduardoinacio.javaspring_socialmedia.repository.RoleRepository;
