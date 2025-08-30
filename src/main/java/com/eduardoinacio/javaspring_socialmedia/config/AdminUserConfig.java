@@ -34,7 +34,6 @@ public class AdminUserConfig implements CommandLineRunner {
                 user -> { System.out.println("Admin user already exists"); },
                 () -> {
                     var admin = new User();
-                    admin.setId(UUID.randomUUID());
                     admin.setName("Admin");
                     admin.setEmail("admin@email.com");
                     admin.setPassword(passwordEncoder.encode("123"));
