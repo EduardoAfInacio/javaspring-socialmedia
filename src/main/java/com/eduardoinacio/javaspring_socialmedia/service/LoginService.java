@@ -1,7 +1,7 @@
 package com.eduardoinacio.javaspring_socialmedia.service;
 
 
-import com.eduardoinacio.javaspring_socialmedia.controller.dto.LoginResponse;
+import com.eduardoinacio.javaspring_socialmedia.controller.dto.login.LoginResponse;
 import com.eduardoinacio.javaspring_socialmedia.repository.UserRepository;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

@@ -1,7 +1,7 @@
 package com.eduardoinacio.javaspring_socialmedia.controller;
 
-import com.eduardoinacio.javaspring_socialmedia.controller.dto.LoginRequest;
-import com.eduardoinacio.javaspring_socialmedia.controller.dto.LoginResponse;
+import com.eduardoinacio.javaspring_socialmedia.controller.dto.login.LoginRequest;
+import com.eduardoinacio.javaspring_socialmedia.controller.dto.login.LoginResponse;
 import com.eduardoinacio.javaspring_socialmedia.service.LoginService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
