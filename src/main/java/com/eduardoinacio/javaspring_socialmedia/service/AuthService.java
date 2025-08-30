@@ -1,7 +1,6 @@
 package com.eduardoinacio.javaspring_socialmedia.service;
 
-
-import com.eduardoinacio.javaspring_socialmedia.controller.dto.login.LoginResponse;
+import com.eduardoinacio.javaspring_socialmedia.controller.dto.Auth.LoginResponse;
 import com.eduardoinacio.javaspring_socialmedia.repository.UserRepository;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,12 +12,12 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 
 @Service
-public class LoginService {
+public class AuthService {
     private UserRepository userRepository;
     private BCryptPasswordEncoder passwordEncoder;
     private JwtEncoder jwtEncoder;
 
-    public LoginService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, JwtEncoder jwtEncoder) {
+    public AuthService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, JwtEncoder jwtEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtEncoder = jwtEncoder;

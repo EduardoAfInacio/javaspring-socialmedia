@@ -1,8 +1,8 @@
 package com.eduardoinacio.javaspring_socialmedia.controller;
 
-import com.eduardoinacio.javaspring_socialmedia.controller.dto.login.LoginRequest;
-import com.eduardoinacio.javaspring_socialmedia.controller.dto.login.LoginResponse;
-import com.eduardoinacio.javaspring_socialmedia.service.LoginService;
+import com.eduardoinacio.javaspring_socialmedia.controller.dto.Auth.LoginRequest;
+import com.eduardoinacio.javaspring_socialmedia.controller.dto.Auth.LoginResponse;
+import com.eduardoinacio.javaspring_socialmedia.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LoginController {
+public class AuthController {
     private JwtEncoder jwtEncoder;
-    private LoginService loginService;
+    private AuthService authService;
 
-    public LoginController(JwtEncoder jwtEncoder, LoginService loginService){
+    public AuthController(JwtEncoder jwtEncoder, AuthService authService){
         this.jwtEncoder = jwtEncoder;
-        this.loginService = loginService;
+        this.authService = authService;
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request){
-        LoginResponse response = loginService.login(request.email(), request.password());
+        LoginResponse response = authService.login(request.email(), request.password());
         return ResponseEntity.ok(response);
     }
 }
