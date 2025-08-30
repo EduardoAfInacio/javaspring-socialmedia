@@ -21,6 +21,6 @@ public class UserController {
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<List<User>> findAll(){
         List<User> users = userService.findAll();
-        return ResponseEntity.ok().body(users);
+        return ResponseEntity.ok(users);
     }
 }
