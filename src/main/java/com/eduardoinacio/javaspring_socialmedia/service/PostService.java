@@ -3,7 +3,9 @@ package com.eduardoinacio.javaspring_socialmedia.service;
 import com.eduardoinacio.javaspring_socialmedia.entity.Post;
 import com.eduardoinacio.javaspring_socialmedia.repository.PostRepository;
 import com.eduardoinacio.javaspring_socialmedia.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
@@ -20,12 +22,24 @@ public class PostService {
     public Boolean createPost(String content, UUID userId){
         var user = userRepository.findById(userId);
         if(user.isEmpty()){
-            throw new IllegalArgumentException("User not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
         var post = new Post();
         post.setUser(user.get());
         post.setContent(content);
         postRepository.save(post);
         return true;
+    }
+
+    public void deletePost(Long postId, UUID userId, boolean userIsAdmin){
+        var post = postRepository.findById(postId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found")
+        );
+
+        if(post.getUser().getId().equals(userId) || userIsAdmin){
+            postRepository.delete(post);
+        }else{
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
     }
 }
