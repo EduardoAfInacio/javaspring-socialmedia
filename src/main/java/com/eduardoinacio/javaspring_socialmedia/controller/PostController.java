@@ -1,8 +1,8 @@
 package com.eduardoinacio.javaspring_socialmedia.controller;
 
+import com.eduardoinacio.javaspring_socialmedia.controller.dto.post.FeedResponse;
 import com.eduardoinacio.javaspring_socialmedia.controller.dto.post.PostCreateRequest;
 import com.eduardoinacio.javaspring_socialmedia.service.PostService;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +15,15 @@ public class PostController {
 
     public PostController(PostService postService) {
         this.postService = postService;
+    }
+
+    @GetMapping("/feed")
+    public ResponseEntity<FeedResponse> feed(@RequestParam(value = "page" , defaultValue = "0") int page,
+                                             @RequestParam(value = "pageSize", defaultValue = "10") int size,
+                                             @RequestParam(value = "sortBy", defaultValue = "creationTimestamp") String sortField){
+        FeedResponse feed = postService.getFeed(page, size, sortField);
+
+        return ResponseEntity.ok(feed);
     }
 
     @PostMapping("/posts")
