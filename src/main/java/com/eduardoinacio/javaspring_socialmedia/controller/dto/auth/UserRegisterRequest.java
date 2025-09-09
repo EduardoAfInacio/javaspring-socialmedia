@@ -1,4 +1,7 @@
 package com.eduardoinacio.javaspring_socialmedia.controller.dto.auth;
 
-public record UserRegisterRequest(String name, String email, String password) {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public record UserRegisterRequest(@NotBlank String name, @NotBlank @Email String email, @NotBlank String password) {
 }
