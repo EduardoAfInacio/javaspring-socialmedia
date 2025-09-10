@@ -29,7 +29,7 @@ public class User {
     private String email;
 
     @Column(name = "birth_date", nullable = false)
-    private LocalDate birthDate;
+    private String birthDate;
 
     @Column(nullable = false)
     private String password;
@@ -39,7 +39,6 @@ public class User {
             name = "tb_users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
-
     )
     private Set<Role> roles;
 
