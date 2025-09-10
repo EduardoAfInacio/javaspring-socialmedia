@@ -10,4 +10,18 @@ services:
       MYSQL_PASSWORD: 123
       MYSQL_DATABASE: socialmedia
       MYSQL_ROOT_PASSWORD: 123
+    networks:
+      - socialmedia-network
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog:latest
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    networks:
+      - socialmedia-network
+networks:
+  socialmedia-network:
+    driver: bridge
+
 
