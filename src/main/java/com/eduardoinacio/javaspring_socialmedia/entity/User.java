@@ -18,6 +18,9 @@ public class User {
     @Column(name = "user_id", nullable = false, updatable = false)
     private UUID id;
 
+    @Column(nullable = false, unique = true)
+    private String document;
+
     @Column(nullable = false)
     private String name;
 

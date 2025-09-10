@@ -29,7 +29,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody @Valid UserRegisterRequest request){
-        authService.register(request.name(), request.email(), request.password());
+        authService.register(request.document() ,request.name(), request.email(), request.password());
         return ResponseEntity.ok().build();
     }
 }
