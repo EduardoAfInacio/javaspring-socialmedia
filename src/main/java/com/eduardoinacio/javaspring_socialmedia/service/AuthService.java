@@ -70,7 +70,7 @@ public class AuthService {
             throw new BadCredentialsException("Email already registered");
         }
 
-        if(userRepository.existsByDocument(document)){
+        if(userRepository.existsByDocument(stringEncryptor.encrypt(document))){
             throw new BadCredentialsException("CPF already registered");
         }
 
