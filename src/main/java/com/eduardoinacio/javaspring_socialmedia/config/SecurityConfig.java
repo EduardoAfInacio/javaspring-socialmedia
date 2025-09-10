@@ -7,11 +7,11 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
+import org.jasypt.salt.StringFixedSaltGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -89,6 +89,7 @@ public class SecurityConfig {
         config.setPoolSize(1);
         config.setStringOutputType("base64");
         encryptor.setConfig(config);
+        encryptor.setSaltGenerator(new StringFixedSaltGenerator("123"));
         return encryptor;
     }
 }
