@@ -79,7 +79,7 @@ public class AuthService {
         newUser.setDocument(stringEncryptor.encrypt(document));
         newUser.setName(name);
         newUser.setEmail(email);
-        newUser.setBirthDate(birthDate);
+        newUser.setBirthDate(stringEncryptor.encrypt(birthDate.toString()));
         newUser.setPassword(passwordEncoder.encode(password));
         newUser.setRoles(Set.of(role));
 

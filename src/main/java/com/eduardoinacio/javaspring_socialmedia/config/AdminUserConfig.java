@@ -40,7 +40,8 @@ public class AdminUserConfig implements CommandLineRunner {
                     admin.setDocument(stringEncryptor.encrypt("12345678910"));
                     admin.setName("Admin");
                     admin.setEmail("admin@email.com");
-                    admin.setBirthDate(LocalDate.now().minusYears(30));
+                    String birthDate = LocalDate.now().minusYears(30).toString();
+                    admin.setBirthDate(stringEncryptor.encrypt(birthDate));
                     admin.setPassword(passwordEncoder.encode("123"));
                     admin.setRoles(Set.of(roleAdmin));
                     userRepository.save(admin);
