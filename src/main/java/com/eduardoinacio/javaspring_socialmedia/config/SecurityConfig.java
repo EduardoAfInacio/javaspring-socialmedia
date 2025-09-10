@@ -89,7 +89,7 @@ public class SecurityConfig {
         config.setPoolSize(1);
         config.setStringOutputType("base64");
         encryptor.setConfig(config);
-        encryptor.setSaltGenerator(new StringFixedSaltGenerator("123"));
+        encryptor.setSaltGenerator(new StringFixedSaltGenerator("1234567891011121314151617181920"));
         return encryptor;
     }
 }
