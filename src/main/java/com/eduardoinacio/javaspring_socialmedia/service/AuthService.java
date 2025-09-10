@@ -71,7 +71,7 @@ public class AuthService {
         }
 
         if(userRepository.existsByDocument(stringEncryptor.encrypt(document))){
-            throw new BadCredentialsException("CPF already registered");
+            throw new BadCredentialsException("Document already registered");
         }
 
         var role = roleRepository.findByName(Role.Values.BASIC.name());
