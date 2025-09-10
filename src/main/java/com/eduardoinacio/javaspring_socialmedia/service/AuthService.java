@@ -1,5 +1,7 @@
 package com.eduardoinacio.javaspring_socialmedia.service;
 
+import com.eduardoinacio.javaspring_socialmedia.Utils.PasswordStrengthVerification;
+import com.eduardoinacio.javaspring_socialmedia.controller.dto.auth.Exception.RegisterValidationException;
 import com.eduardoinacio.javaspring_socialmedia.controller.dto.auth.LoginResponse;
 import com.eduardoinacio.javaspring_socialmedia.entity.Role;
 import com.eduardoinacio.javaspring_socialmedia.entity.User;
@@ -14,6 +16,9 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -60,11 +65,23 @@ public class AuthService {
     }
 
     @Transactional
-    public Boolean register(String name,String email, String password){
+    public void register(String name,String email, String password){
+        Map<String, List<String>> errorsFields = new HashMap<>();
+
         var user = userRepository.findByEmail(email);
 
         if(user.isPresent()){
-            throw new BadCredentialsException("Email already exists");
+            errorsFields.put("email", List.of("Email already registered"));
+        }
+
+        List<String> passwordErrors = PasswordStrengthVerification.verifyPasswordStrength(password);
+
+        if(!passwordErrors.isEmpty()){
+            errorsFields.put("password", passwordErrors);
+        }
+
+        if(!errorsFields.isEmpty()){
+            throw new RegisterValidationException(errorsFields);
         }
 
         var role = roleRepository.findByName(Role.Values.BASIC.name());
@@ -75,7 +92,5 @@ public class AuthService {
         newUser.setRoles(Set.of(role));
 
         userRepository.save(newUser);
-
-        return true;
     }
 }
