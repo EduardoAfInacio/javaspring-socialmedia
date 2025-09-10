@@ -1,13 +1,12 @@
 package com.eduardoinacio.javaspring_socialmedia.service;
 
-import com.eduardoinacio.javaspring_socialmedia.Utils.PasswordStrengthVerification;
-import com.eduardoinacio.javaspring_socialmedia.controller.dto.auth.Exception.RegisterValidationException;
 import com.eduardoinacio.javaspring_socialmedia.controller.dto.auth.LoginResponse;
 import com.eduardoinacio.javaspring_socialmedia.entity.Role;
 import com.eduardoinacio.javaspring_socialmedia.entity.User;
 import com.eduardoinacio.javaspring_socialmedia.repository.RoleRepository;
 import com.eduardoinacio.javaspring_socialmedia.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -16,9 +15,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,12 +25,14 @@ public class AuthService {
     private RoleRepository roleRepository;
     private BCryptPasswordEncoder passwordEncoder;
     private JwtEncoder jwtEncoder;
+    private StringEncryptor stringEncryptor;
 
-    public AuthService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, JwtEncoder jwtEncoder) {
+    public AuthService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, JwtEncoder jwtEncoder, StringEncryptor stringEncryptor) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtEncoder = jwtEncoder;
+        this.stringEncryptor = stringEncryptor;
     }
 
     public LoginResponse login(String email, String password){
@@ -65,29 +64,22 @@ public class AuthService {
     }
 
     @Transactional
-    public void register(String name,String email, String password){
-        Map<String, List<String>> errorsFields = new HashMap<>();
+    public void register(String document, String name, String email, LocalDate birthDate, String password){
 
-        var user = userRepository.findByEmail(email);
-
-        if(user.isPresent()){
-            errorsFields.put("email", List.of("Email already registered"));
+        if(userRepository.existsByEmail(email)){
+            throw new BadCredentialsException("Email already registered");
         }
 
-        List<String> passwordErrors = PasswordStrengthVerification.verifyPasswordStrength(password);
-
-        if(!passwordErrors.isEmpty()){
-            errorsFields.put("password", passwordErrors);
-        }
-
-        if(!errorsFields.isEmpty()){
-            throw new RegisterValidationException(errorsFields);
+        if(userRepository.existsByDocument(document)){
+            throw new BadCredentialsException("CPF already registered");
         }
 
         var role = roleRepository.findByName(Role.Values.BASIC.name());
         var newUser = new User();
+        newUser.setDocument(stringEncryptor.encrypt(document));
         newUser.setName(name);
         newUser.setEmail(email);
+        newUser.setBirthDate(birthDate);
         newUser.setPassword(passwordEncoder.encode(password));
         newUser.setRoles(Set.of(role));
 
