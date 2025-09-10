@@ -19,20 +19,21 @@ public class CpfOrCnpjValidation implements ConstraintValidator<ValidCpfOrCnpj, 
             if(!valid){
                 buildCustomMessage(constraintValidatorContext, "Invalid CPF");
             }
+            return valid;
         }
 
-        if(cpfOrCnpj.length() == 14){
+        else if(cpfOrCnpj.length() == 14){
             boolean valid = new CNPJValidator().isValid(cpfOrCnpj, constraintValidatorContext);
             if(!valid){
                 buildCustomMessage(constraintValidatorContext, "Invalid CNPJ");
             }
+            return valid;
         }
 
-        if (cpfOrCnpj.length() != 11 && cpfOrCnpj.length() != 14) {
+        else{
             buildCustomMessage(constraintValidatorContext, "Document must have 11(CPF) or 14(CNPJ) characters");
+            return false;
         }
-
-        return false;
     }
 
     private void buildCustomMessage(ConstraintValidatorContext constraintValidatorContext, String message){
