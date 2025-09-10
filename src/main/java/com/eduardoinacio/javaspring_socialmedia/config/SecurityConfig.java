@@ -85,7 +85,7 @@ public class SecurityConfig {
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();
         config.setPassword(System.getenv("ENCRYPTION_PASSWORD"));
-        config.setAlgorithm("PBEWithHMACSHA512AndAES_256");
+        config.setAlgorithm("PBEWithMD5AndDES");
         config.setPoolSize(1);
         config.setStringOutputType("base64");
         encryptor.setConfig(config);
