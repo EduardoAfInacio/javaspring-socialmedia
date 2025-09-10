@@ -5,11 +5,11 @@ import jakarta.validation.Constraint;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = CpfValidationLogic.class)
+@Constraint(validatedBy = CpfOrCnpjValidation.class)
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidCpf {
-    String message() default "Cpf is invalid";
+public @interface ValidCpfOrCnpj {
+    String message() default "Invalid CPF or CNPJ";
     Class<?>[] groups() default {};
     Class<? extends jakarta.validation.Payload>[] payload() default {};
 }
