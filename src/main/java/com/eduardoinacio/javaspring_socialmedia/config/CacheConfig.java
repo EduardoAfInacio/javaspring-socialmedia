@@ -11,8 +11,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class CacheConfig {
     @Bean
-    public RedisTemplate<String, MailDTO> redisTemplate(RedisConnectionFactory redisConnectionFactory){
-        RedisTemplate<String, MailDTO> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
 
         redisTemplate.setKeySerializer(new StringRedisSerializer());
