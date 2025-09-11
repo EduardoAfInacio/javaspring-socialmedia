@@ -10,15 +10,19 @@ import java.util.List;
 @Service
 public class RedisService {
     @Autowired
-    private static RedisTemplate<String, MailDTO> redisTemplate;
+    private RedisTemplate<String, MailDTO> redisTemplate;
+
+    public RedisService(RedisTemplate<String, MailDTO> redisTemplate){
+        this.redisTemplate = redisTemplate;
+    }
 
     private static final String EMAIL_QUEUE = "emailQueue";
 
-    public static void pushEmail(MailDTO mail){
+    public void pushEmail(MailDTO mail){
         redisTemplate.opsForList().leftPush(EMAIL_QUEUE, mail);
     }
 
-    public static MailDTO popEmail(){
+    public MailDTO popEmail(){
         return redisTemplate.opsForList().rightPop(EMAIL_QUEUE);
     }
 
