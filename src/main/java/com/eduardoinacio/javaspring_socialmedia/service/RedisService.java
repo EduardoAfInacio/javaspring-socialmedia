@@ -18,8 +18,8 @@ public class RedisService {
         redisTemplate.opsForList().leftPush(EMAIL_QUEUE, mail);
     }
 
-    public static void popEmail(){
-        redisTemplate.opsForList().rightPop(EMAIL_QUEUE);
+    public static MailDTO popEmail(){
+        return redisTemplate.opsForList().rightPop(EMAIL_QUEUE);
     }
 
     public static List<MailDTO> getEmails(){
