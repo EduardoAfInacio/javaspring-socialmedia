@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class MailService {
     private final JavaMailSender mailSender;
+    private final RedisService redisService;
 
-    public MailService(JavaMailSender mailSender) {
+    public MailService(JavaMailSender mailSender, RedisService redisService) {
         this.mailSender = mailSender;
+        this.redisService = redisService;
     }
 
     @Async
@@ -25,7 +27,7 @@ public class MailService {
         }catch (Exception e){
             if(mailDTO.getRetryCount() < 3){
                 mailDTO.setRetryCount(mailDTO.getRetryCount() + 1);
-                RedisService.pushEmail(mailDTO);
+                redisService.pushEmail(mailDTO);
             }
         }
     }
