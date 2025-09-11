@@ -5,6 +5,7 @@ import com.eduardoinacio.javaspring_socialmedia.entity.Role;
 import com.eduardoinacio.javaspring_socialmedia.entity.User;
 import com.eduardoinacio.javaspring_socialmedia.repository.RoleRepository;
 import com.eduardoinacio.javaspring_socialmedia.repository.UserRepository;
+import com.eduardoinacio.javaspring_socialmedia.service.Mail.MailDTO;
 import jakarta.transaction.Transactional;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,13 +27,15 @@ public class AuthService {
     private BCryptPasswordEncoder passwordEncoder;
     private JwtEncoder jwtEncoder;
     private StringEncryptor stringEncryptor;
+    private RedisService redisService;
 
-    public AuthService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, JwtEncoder jwtEncoder, StringEncryptor stringEncryptor) {
+    public AuthService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, JwtEncoder jwtEncoder, StringEncryptor stringEncryptor, RedisService redisService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtEncoder = jwtEncoder;
         this.stringEncryptor = stringEncryptor;
+        this.redisService = redisService;
     }
 
     public LoginResponse login(String email, String password){
@@ -84,5 +87,12 @@ public class AuthService {
         newUser.setRoles(Set.of(role));
 
         userRepository.save(newUser);
+
+        redisService.pushEmail(new MailDTO(
+                email,
+                "Socialmedia - Account created successfully",
+                "Congratulations, your account has been created successfully.",
+                0
+        ));
     }
 }
