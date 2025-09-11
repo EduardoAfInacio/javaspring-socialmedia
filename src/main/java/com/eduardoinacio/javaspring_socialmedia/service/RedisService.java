@@ -22,7 +22,7 @@ public class RedisService {
         redisTemplate.opsForList().rightPop(EMAIL_QUEUE);
     }
 
-    public static List<MailDTO> getEmails(String to){
+    public static List<MailDTO> getEmails(){
         return redisTemplate.opsForList().range(EMAIL_QUEUE, 0, -1);
     }
 }
