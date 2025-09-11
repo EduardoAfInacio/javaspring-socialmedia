@@ -26,7 +26,7 @@ public class RedisService {
         return redisTemplate.opsForList().rightPop(EMAIL_QUEUE);
     }
 
-    public static List<MailDTO> getEmails(){
+    public List<MailDTO> getEmails(){
         return redisTemplate.opsForList().range(EMAIL_QUEUE, 0, -1);
     }
 }
