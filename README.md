@@ -65,7 +65,7 @@ Example/production project that implements a social media application backend us
 - User registration and authentication with JWT
 - Custom validations (CPF/CNPJ, password strength, date of birth)
 - Post creation and management
-- Feed generation with caching
+- Feed generation with caching and pagination support (configurable page size and sorting)
 - Asynchronous email notifications
 - Role-based access control
 - Admin user configuration
